@@ -8,10 +8,19 @@ body {
   height: 100vh;
   width: 100%;
   background-color: peachpuff;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
 }
 .viewer h1 {
   margin: 0;
   padding: 0;
   text-align: center;
   font-size: 3rem;
+}
+.viewer .quiz-box {
+  width: 70%;
+  height: 70%;
+  background: whitesmoke;
 }/*# sourceMappingURL=style.css.map */
