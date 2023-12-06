@@ -3,6 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Young+Serif&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
     <script src="index.js" defer></script>
     <title>Ultimate Quiz</title>
@@ -10,7 +16,10 @@
   <body>
     <div class="viewer">
       <h1>Gustavs Quiz</h1>
-      <div class="quiz-box"></div>
+      <div id="quiz-box">
+        <button id="start-button">Start Quiz</button>
+      </div>
+      <button id="dark-mode">Dark mode</button>
     </div>
   </body>
 </html>
