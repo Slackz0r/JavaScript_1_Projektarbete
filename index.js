@@ -30,6 +30,11 @@ let questions = [
     answer: "Bacon",
     answer2: "Äggula",
     type: "checkbox",
+
+    alt1: "Bacon",
+    alt2: "Sparris",
+    alt3: "Tomat",
+    alt4: "Äggula",
   },
   {
     question: "Banan är en baljväxt",
@@ -38,30 +43,56 @@ let questions = [
   },
   {
     question: "Vilka av följande är INTE svenska kungar?",
-    answer: "Kung Hans",
-    answer2: "Kung Erland",
+    answer: "Hans IV",
+    answer2: "Erland II",
     type: "checkbox",
+
+    alt1: "Gustav Vasa",
+    alt2: "Hans IV",
+    alt3: "Karl XII",
+    alt4: "Erland II",
   },
   {
     question:
       "Vad heter den mest grundläggande vågformen, som alla andra är uppbyggda utav?",
     answer: "Sinus",
     type: "radio",
+
+    alt1: "Sågtand",
+    alt2: "Sinus",
+    alt3: "Square",
+    alt4: "Distortion",
   },
   {
     question: "Vilket djur bet Ozzy Osbourne av huvudet på under en konsert?",
     answer: "Fladdermus",
     type: "radio",
+
+    alt1: "Hyena",
+    alt2: "Sork",
+    alt3: "Fladdermus",
+    alt4: "Råtta",
   },
   {
     question: "Vem är 'E-type'?",
     answer: "Långhårig eurodisco legend",
     type: "radio",
+
+    alt1: "Jesus",
+    alt2: "Discons fader",
+    alt3: "Vikingahövding",
+    alt4: "Långhårig eurodisco legend",
   },
   {
     question: "Vad är 'E-type' väldigt intresserad av?",
     answer: "Vikingar",
+    answer2: "Mjöd",
     type: "checkbox",
+
+    alt1: "Aliens",
+    alt2: "Mjöd",
+    alt3: "Vikingar",
+    alt4: "Kattungar",
   },
 ];
 
@@ -81,14 +112,15 @@ let score = 0;
 //Funktioner
 
 //Funktion för nästa fråga
+
 let nextQuestion = () => {
   //Rensa text
   quizBox.innerHTML = "";
   //Skapa "div" samt lägg till text och knapp
   let div = document.createElement("div");
   div.innerHTML = `
-      <h2>Question ${index + 1}</h2>
-      <p>${questions[index].question}</p>
+  <h2>Question ${index + 1}</h2>
+  <p>${questions[index].question}</p>
       `;
   quizBox.append(div);
   //if-sats för typ av fråga
@@ -109,18 +141,18 @@ let nextQuestion = () => {
 let radioFunction = () => {
   let radioBtns = document.createElement("div");
   radioBtns.innerHTML = `
-    <label for="radio-1">${questions[index].alt1}</label>
-    <input type="radio" id="radio-1" name="radio" value="${questions[index].alt1}>
-
-    <label for="radio-2">${questions[index].alt2}</label>
-    <input type="radio" id="radio-2" name="radio" value="${questions[index].alt2}>
-
-    <label for="radio-3">${questions[index].alt3}</label>
-    <input type="radio" id="radio-3" name="radio" value="${questions[index].alt3}>
-
-    <label for="radio-4">${questions[index].alt4}</label>
-    <input type="radio" id="radio-4" name="radio" value="${questions[index].alt4}">
-    `;
+  <label for="radio-1">${questions[index].alt1}</label>
+  <input type="radio" id="radio-1" name="radio" value="${questions[index].alt1}">
+  
+  <label for="radio-2">${questions[index].alt2}</label>
+  <input type="radio" id="radio-2" name="radio" value="${questions[index].alt2}">
+  
+  <label for="radio-3">${questions[index].alt3}</label>
+  <input type="radio" id="radio-3" name="radio" value="${questions[index].alt3}">
+  
+  <label for="radio-4">${questions[index].alt4}</label>
+  <input type="radio" id="radio-4" name="radio" value="${questions[index].alt4}">
+  `;
   quizBox.append(radioBtns);
 };
 
@@ -138,21 +170,25 @@ let boolFunction = () => {
 let checkboxFunction = () => {
   let checkboxes = document.createElement("div");
   checkboxes.innerHTML = `
-  <label for="checkbox-1"></label>
-  <input type="checkbox" id="checkbox-1" value="">
+  <label for="checkbox-1">${questions[index].alt1}</label>
+  <input type="checkbox" id="checkbox-1" value="${questions[index].alt1}">
 
-  <label for="checkbox-2"></label>
-  <input type="checkbox" id="checkbox-2" value="">
+  <label for="checkbox-2">${questions[index].alt2}</label>
+  <input type="checkbox" id="checkbox-2" value="${questions[index].alt2}">
 
-  <label for="checkbox-3"></label>
-  <input type="checkbox" id="checkbox-3" value="">
+  <label for="checkbox-3">${questions[index].alt3}</label>
+  <input type="checkbox" id="checkbox-3" value="${questions[index].alt3}">
 
-  <label for="checkbox-4"></label>
-  <input type="checkbox" id="checkbox-4" value="">
+  <label for="checkbox-4">${questions[index].alt4}</label>
+  <input type="checkbox" id="checkbox-4" value="${questions[index].alt4}">
   `;
   quizBox.append(checkboxes);
 };
 
+//Funktion för att lägga till poäng
+let addPoints = () => {
+  let radioValue = document.querySelectorAll("[type='radio']");
+};
 //Knapp för att starta quiz
 startBtn.addEventListener("click", () => {
   startBtn.remove();
