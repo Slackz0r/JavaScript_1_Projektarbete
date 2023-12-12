@@ -99,6 +99,7 @@ let questions = [
 //Element i HTML
 let quizBox = document.querySelector("#quiz-box");
 let startBtn = document.querySelector("#start-button");
+let darkMode = document.querySelector("#dark-mode");
 
 //Knappar
 
@@ -157,7 +158,7 @@ let nextQuestion = (isStart = false) => {
   }
 };
 
-//Funktion för att svara
+//Funktion för att se om svaret stämmer
 let validateAnswer = () => {
   console.log(answerArray);
   //Om type = checkbox
@@ -277,6 +278,7 @@ let scoreboardFunction = () => {
     <p>${answer.answer}</p>
     `;
     quizBox.append(answerDiv);
+    //Rätt svar- görn färg, fel svar- röd färg
     if (answer.answer === questions[index].correctAnswer) {
       answerDiv.style.color = "green";
     } else {
@@ -289,6 +291,7 @@ let scoreboardFunction = () => {
 //Knapp för att starta quiz
 startBtn.addEventListener("click", () => {
   startBtn.remove();
+  //isStart = true
   nextQuestion(true);
 });
 
