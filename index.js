@@ -125,12 +125,14 @@ let nextQuestion = (isStart = false) => {
   if (isStart === false) {
     index++;
   }
+
   //Tömmer answerArray
   answerArray = [];
   //Rensa text
   quizBox.innerHTML = "";
-  //Om index är över 9 - skriv ut scoreboard
-  if (index > questions.length - 1) {
+
+  //Om index är över objektet.length - skriv ut scoreboard
+  if (index >= questions.length) {
     nextBtn.innerText = "Show results";
     scoreboardFunction();
   } else {
@@ -249,6 +251,25 @@ let checkboxFunction = () => {
 
 //Funktion för att skriva ut resultat
 let scoreboardFunction = () => {
+  //Skriver ut total poäng
+  let scoreText = document.createElement("h2");
+  scoreText.innerText = `
+  Total score: ${scoreboard.totalScore}
+  (${scoreboard.totalScore * 10}%)
+  `;
+  //Ändrar färg beroende på resultat
+  quizBox.append(scoreText);
+  if (scoreboard.totalScore <= questions.length * 0.5) {
+    scoreText.style.color = "red";
+  } else if (scoreboard.totalScore <= questions.length * 0.75) {
+    scoreText.style.color = "orange";
+  } else {
+    scoreText.style.color = "green";
+  }
+
+  //Sätter index till 0 för att kunna loopa igenom igen
+  index = 0;
+  //Loopar igenom scoreboard answers och skriver ut
   scoreboard.answeredQuestions.forEach((answer) => {
     let answerDiv = document.createElement("div");
     answerDiv.innerHTML = `
@@ -256,6 +277,12 @@ let scoreboardFunction = () => {
     <p>${answer.answer}</p>
     `;
     quizBox.append(answerDiv);
+    if (answer.answer === questions[index].correctAnswer) {
+      answerDiv.style.color = "green";
+    } else {
+      answerDiv.style.color = "red";
+    }
+    index++;
   });
 };
 
@@ -286,5 +313,4 @@ nextBtn.addEventListener("click", () => {
   });
   //Nästa fråga
   nextQuestion();
-  console.log(scoreboard);
 });
