@@ -107,8 +107,6 @@ let darkMode = document.querySelector("#dark-mode");
 //Knapp för nästa fråga samt kolla svar
 let nextBtn = document.createElement("button");
 nextBtn.innerText = "Next question";
-let trueBtn = document.querySelector("#true");
-let falseBtn = document.querySelector("#false");
 
 //Counters
 let index = 0;
@@ -239,6 +237,8 @@ let boolFunction = () => {
       <button id="false">False</button>
       `;
   quizBox.append(boolBtns);
+  let trueBtn = document.querySelector("#true");
+  let falseBtn = document.querySelector("#false");
 };
 
 //Funktion för checkbox
