@@ -3,31 +3,36 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Young Serif", serif;
-}
-.viewer {
-  height: 100vh;
-  width: 100%;
-  background-color: peachpuff;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  align-items: center;
-  h1 {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    font-size: 3rem;
-  }
-  #quiz-box {
-    width: 70%;
-    height: 70%;
-    background: whitesmoke;
-    border-radius: 16px;
+
+  #viewer {
+    height: 100vh;
+    width: 100%;
+    background-color: peachpuff;
     display: flex;
+    justify-content: space-evenly;
     flex-direction: column;
-    #start-button {
-      align-self: center;
-      justify-self: center;
+    align-items: center;
+    h1 {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      font-size: 3rem;
+    }
+    #quiz-box {
+      width: 70%;
+      height: 70%;
+      background: whitesmoke;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      #start-button {
+        align-self: center;
+        justify-self: center;
+      }
     }
   }
+}
+#viewer.darkMode {
+  background: black;
+  color: white;
 }

@@ -98,6 +98,7 @@ let questions = [
 
 //Element i HTML
 let quizBox = document.querySelector("#quiz-box");
+let viewer = document.querySelector("#viewer");
 let startBtn = document.querySelector("#start-button");
 let darkMode = document.querySelector("#dark-mode");
 
@@ -316,4 +317,9 @@ nextBtn.addEventListener("click", () => {
   });
   //Nästa fråga
   nextQuestion();
+});
+
+//Knapp för dark mode
+darkMode.addEventListener("click", () => {
+  viewer.classList.toggle("darkMode");
 });
