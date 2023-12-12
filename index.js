@@ -2,12 +2,12 @@
 let questions = [
   {
     question: "I frankrike är det olagligt att döpa en gris till 'Napoleon'",
-    answer: true,
+    correctAnswer: true,
     type: "bool",
   },
   {
     question: "Vilken av följande är INTE en karaktär i 'Sagan om Ringen'",
-    answer: "Beowulf",
+    correctAnswer: "Beowulf",
     type: "radio",
 
     alt1: "Aragorn",
@@ -17,7 +17,7 @@ let questions = [
   },
   {
     question: "Vad heter Gustav i mellannamn?",
-    answer: "Lars Gunnar",
+    correctAnswer: "Lars Gunnar",
     type: "radio",
 
     alt1: "Henning",
@@ -27,8 +27,8 @@ let questions = [
   },
   {
     question: "Vilka av följande ingredienser innehåller en 'Pasta Carbonara'?",
-    answer: "Bacon",
-    answer2: "Äggula",
+    correctAnswer: "Bacon",
+    correctAnswer2: "Äggula",
     type: "checkbox",
 
     alt1: "Bacon",
@@ -38,13 +38,13 @@ let questions = [
   },
   {
     question: "Banan är en baljväxt",
-    answer: false,
+    correctAnswer: false,
     type: "bool",
   },
   {
     question: "Vilka av följande är INTE svenska kungar?",
-    answer: "Hans IV",
-    answer2: "Erland II",
+    correctAnswer: "Hans IV",
+    correctAnswer2: "Erland II",
     type: "checkbox",
 
     alt1: "Gustav Vasa",
@@ -55,7 +55,7 @@ let questions = [
   {
     question:
       "Vad heter den mest grundläggande vågformen, som alla andra är uppbyggda utav?",
-    answer: "Sinus",
+    correctAnswer: "Sinus",
     type: "radio",
 
     alt1: "Sågtand",
@@ -65,7 +65,7 @@ let questions = [
   },
   {
     question: "Vilket djur bet Ozzy Osbourne av huvudet på under en konsert?",
-    answer: "Fladdermus",
+    correctAnswer: "Fladdermus",
     type: "radio",
 
     alt1: "Hyena",
@@ -75,7 +75,7 @@ let questions = [
   },
   {
     question: "Vem är 'E-type'?",
-    answer: "Långhårig eurodisco legend",
+    correctAnswer: "Långhårig eurodisco legend",
     type: "radio",
 
     alt1: "Jesus",
@@ -85,8 +85,8 @@ let questions = [
   },
   {
     question: "Vad är 'E-type' väldigt intresserad av?",
-    answer: "Vikingar",
-    answer2: "Mjöd",
+    correctAnswer: "Vikingar",
+    correctAnswer2: "Mjöd",
     type: "checkbox",
 
     alt1: "Aliens",
@@ -99,9 +99,10 @@ let questions = [
 //Element i HTML
 let quizBox = document.querySelector("#quiz-box");
 let startBtn = document.querySelector("#start-button");
-let list = document.querySelector("#list");
 
 //Knappar
+
+//Knapp för nästa fråga samt kolla svar
 let nextBtn = document.createElement("button");
 nextBtn.innerText = "Next question";
 
@@ -109,50 +110,111 @@ nextBtn.innerText = "Next question";
 let index = 0;
 let score = 0;
 
+//Arrayer
+let answerArray = [];
+let scoreboard = {
+  totalScore: 0,
+  answeredQuestions: [],
+};
+
 //Funktioner
 
 //Funktion för nästa fråga
-
-let nextQuestion = () => {
+let nextQuestion = (isStart = false) => {
+  //index får +1 om det inte är "start button"
+  if (isStart === false) {
+    index++;
+  }
+  //Tömmer answerArray
+  answerArray = [];
   //Rensa text
   quizBox.innerHTML = "";
-  //Skapa "div" samt lägg till text och knapp
-  let div = document.createElement("div");
-  div.innerHTML = `
-  <h2>Question ${index + 1}</h2>
-  <p>${questions[index].question}</p>
-      `;
-  quizBox.append(div);
-  //if-sats för typ av fråga
-  if (questions[index].type === "radio") {
-    radioFunction();
-  } else if (questions[index].type === "bool") {
-    boolFunction();
-  } else if (questions[index].type === "checkbox") {
-    checkboxFunction();
+  //Om index är över 9 - skriv ut scoreboard
+  if (index > questions.length - 1) {
+    nextBtn.innerText = "Show results";
+    scoreboardFunction();
+  } else {
+    //Skapa "div" samt lägg till text och knapp
+    let div = document.createElement("div");
+    div.innerHTML = `
+    <h2>Question ${index + 1}</h2>
+    <p>${questions[index].question}</p>
+        `;
+    quizBox.append(div);
+
+    //if-sats för typ av fråga
+    if (questions[index].type === "radio") {
+      radioFunction();
+    } else if (questions[index].type === "bool") {
+      boolFunction();
+    } else if (questions[index].type === "checkbox") {
+      checkboxFunction();
+    }
+    //Knapp för nästa fråga
+    quizBox.append(nextBtn);
   }
-  //Knapp för nästa fråga
-  quizBox.append(nextBtn);
-  //index får +1
-  index++;
+};
+
+//Funktion för att svara
+let validateAnswer = () => {
+  console.log(answerArray);
+  //Om type = checkbox
+  if (questions[index].type === "checkbox") {
+    //Kollar answer 1
+    const isFirstAnswerCorrect = answerArray.includes(
+      questions[index].correctAnswer
+    );
+    //Kollar answer 2
+    const isSecondAnswerCorrect = answerArray.includes(
+      questions[index].correctAnswer2
+    );
+    //Matchar om båda stämmer
+    if (isFirstAnswerCorrect && isSecondAnswerCorrect) {
+      return true;
+    } else {
+      return false;
+    }
+    //Om type = radio/bool
+  } else {
+    if (answerArray.includes(questions[index].correctAnswer)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
+//Funktion för att få ut värdet från checkboxes
+let checkboxAnswerFunction = () => {
+  let checkbox = document.querySelectorAll("[type='checkbox']:checked");
+  //Loopar alla checkade checkboxar
+  checkbox.forEach((box) => {
+    answerArray.push(box.value);
+  });
+};
+
+//Funktion för att få ut värdet från radio buttons
+let radioAnswerFunction = () => {
+  let radio = document.querySelector("[type='radio']:checked");
+  answerArray.push(radio.value);
 };
 
 //Funktion för radio
 let radioFunction = () => {
   let radioBtns = document.createElement("div");
   radioBtns.innerHTML = `
-  <label for="radio-1">${questions[index].alt1}</label>
-  <input type="radio" id="radio-1" name="radio" value="${questions[index].alt1}">
-  
-  <label for="radio-2">${questions[index].alt2}</label>
-  <input type="radio" id="radio-2" name="radio" value="${questions[index].alt2}">
-  
-  <label for="radio-3">${questions[index].alt3}</label>
-  <input type="radio" id="radio-3" name="radio" value="${questions[index].alt3}">
-  
-  <label for="radio-4">${questions[index].alt4}</label>
-  <input type="radio" id="radio-4" name="radio" value="${questions[index].alt4}">
-  `;
+    <label for="radio-1">${questions[index].alt1}</label>
+    <input type="radio" id="radio-1" name="radio" value="${questions[index].alt1}">
+    
+    <label for="radio-2">${questions[index].alt2}</label>
+    <input type="radio" id="radio-2" name="radio" value="${questions[index].alt2}">
+    
+    <label for="radio-3">${questions[index].alt3}</label>
+    <input type="radio" id="radio-3" name="radio" value="${questions[index].alt3}">
+    
+    <label for="radio-4">${questions[index].alt4}</label>
+    <input type="radio" id="radio-4" name="radio" value="${questions[index].alt4}">
+    `;
   quizBox.append(radioBtns);
 };
 
@@ -160,9 +222,9 @@ let radioFunction = () => {
 let boolFunction = () => {
   let boolBtns = document.createElement("div");
   boolBtns.innerHTML = `
-    <button>True</button>
-    <button>False</button>
-    `;
+      <button>True</button>
+      <button>False</button>
+      `;
   quizBox.append(boolBtns);
 };
 
@@ -170,32 +232,59 @@ let boolFunction = () => {
 let checkboxFunction = () => {
   let checkboxes = document.createElement("div");
   checkboxes.innerHTML = `
-  <label for="checkbox-1">${questions[index].alt1}</label>
-  <input type="checkbox" id="checkbox-1" value="${questions[index].alt1}">
-
-  <label for="checkbox-2">${questions[index].alt2}</label>
-  <input type="checkbox" id="checkbox-2" value="${questions[index].alt2}">
-
-  <label for="checkbox-3">${questions[index].alt3}</label>
-  <input type="checkbox" id="checkbox-3" value="${questions[index].alt3}">
-
-  <label for="checkbox-4">${questions[index].alt4}</label>
-  <input type="checkbox" id="checkbox-4" value="${questions[index].alt4}">
-  `;
+    <label for="checkbox-1">${questions[index].alt1}</label>
+    <input type="checkbox" id="checkbox-1" value="${questions[index].alt1}">
+  
+    <label for="checkbox-2">${questions[index].alt2}</label>
+    <input type="checkbox" id="checkbox-2" value="${questions[index].alt2}">
+  
+    <label for="checkbox-3">${questions[index].alt3}</label>
+    <input type="checkbox" id="checkbox-3" value="${questions[index].alt3}">
+  
+    <label for="checkbox-4">${questions[index].alt4}</label>
+    <input type="checkbox" id="checkbox-4" value="${questions[index].alt4}">
+    `;
   quizBox.append(checkboxes);
 };
 
-//Funktion för att lägga till poäng
-let addPoints = () => {
-  let radioValue = document.querySelectorAll("[type='radio']");
+//Funktion för att skriva ut resultat
+let scoreboardFunction = () => {
+  scoreboard.answeredQuestions.forEach((answer) => {
+    let answerDiv = document.createElement("div");
+    answerDiv.innerHTML = `
+    <p>${answer.questionTitle}</p>
+    <p>${answer.answer}</p>
+    `;
+    quizBox.append(answerDiv);
+  });
 };
+
 //Knapp för att starta quiz
 startBtn.addEventListener("click", () => {
   startBtn.remove();
-  nextQuestion();
+  nextQuestion(true);
 });
 
 //Knapp för nästa fråga
 nextBtn.addEventListener("click", () => {
+  console.log(questions[index].type, index);
+  //Kollar typ av fråga
+  if (questions[index].type === "checkbox") {
+    checkboxAnswerFunction();
+  } else if (questions[index].type === "radio") {
+    radioAnswerFunction();
+  }
+  //Lägger till poäng om svaret är rätt
+  const isAnswerCorrect = validateAnswer();
+  if (isAnswerCorrect === true) {
+    scoreboard.totalScore++;
+  }
+  //Lägger till fråga + svar i scoreboard
+  scoreboard.answeredQuestions.push({
+    questionTitle: questions[index].question,
+    answer: answerArray.join(", "),
+  });
+  //Nästa fråga
   nextQuestion();
+  console.log(scoreboard);
 });
