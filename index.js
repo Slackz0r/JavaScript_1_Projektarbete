@@ -107,6 +107,8 @@ let darkMode = document.querySelector("#dark-mode");
 //Knapp för nästa fråga samt kolla svar
 let nextBtn = document.createElement("button");
 nextBtn.innerText = "Next question";
+let trueBtn = document.querySelector("#true");
+let falseBtn = document.querySelector("#false");
 
 //Counters
 let index = 0;
@@ -133,9 +135,12 @@ let nextQuestion = (isStart = false) => {
   //Rensa text
   quizBox.innerHTML = "";
 
+  //Gör om "Next question" till "Show results" på sista frågan
+  if (index === questions.length - 1) {
+    nextBtn.innerText = "Show results";
+  }
   //Om index är över objektet.length - skriv ut scoreboard
   if (index >= questions.length) {
-    nextBtn.innerText = "Show results";
     scoreboardFunction();
   } else {
     //Skapa "div" samt lägg till text och knapp
@@ -154,8 +159,11 @@ let nextQuestion = (isStart = false) => {
     } else if (questions[index].type === "checkbox") {
       checkboxFunction();
     }
-    //Knapp för nästa fråga
-    quizBox.append(nextBtn);
+    //Skapar "next question" om inte bool
+    if (questions[index].type !== "bool") {
+      //Knapp för nästa fråga
+      quizBox.append(nextBtn);
+    }
   }
 };
 
@@ -225,9 +233,10 @@ let radioFunction = () => {
 //Funktion för true/false
 let boolFunction = () => {
   let boolBtns = document.createElement("div");
+
   boolBtns.innerHTML = `
-      <button>True</button>
-      <button>False</button>
+      <button id="true">True</button>
+      <button id="false">False</button>
       `;
   quizBox.append(boolBtns);
 };
@@ -310,7 +319,7 @@ nextBtn.addEventListener("click", () => {
   if (isAnswerCorrect === true) {
     scoreboard.totalScore++;
   }
-  //Lägger till fråga + svar i scoreboard
+  //Lägger till fråga + svar i scoreboard array
   scoreboard.answeredQuestions.push({
     questionTitle: questions[index].question,
     answer: answerArray.join(", "),
@@ -322,4 +331,9 @@ nextBtn.addEventListener("click", () => {
 //Knapp för dark mode
 darkMode.addEventListener("click", () => {
   viewer.classList.toggle("darkMode");
+});
+
+trueBtn.addEventListener("click", () => {
+  answerArray.push(true);
+  quizBox.append(nextBtn);
 });
