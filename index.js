@@ -139,7 +139,7 @@ let nextQuestion = (isStart = false) => {
   }
   //Om index är över objektet.length - skriv ut scoreboard
   if (index >= questions.length) {
-    scoreboardFunction();
+    showScoreboardFunction();
   } else {
     //Skapa "div" samt lägg till text och knapp
     let div = document.createElement("div");
@@ -159,9 +159,9 @@ let nextQuestion = (isStart = false) => {
     }
     //Skapar "next question" om inte bool
     if (questions[index].type !== "bool") {
-      //Knapp för nästa fråga
-      quizBox.append(nextBtn);
     }
+    //Knapp för nästa fråga
+    quizBox.append(nextBtn);
   }
 };
 
@@ -237,8 +237,6 @@ let boolFunction = () => {
       <button id="false">False</button>
       `;
   quizBox.append(boolBtns);
-  let trueBtn = document.querySelector("#true");
-  let falseBtn = document.querySelector("#false");
 };
 
 //Funktion för checkbox
@@ -261,7 +259,7 @@ let checkboxFunction = () => {
 };
 
 //Funktion för att skriva ut resultat
-let scoreboardFunction = () => {
+let showScoreboardFunction = () => {
   //Skriver ut total poäng
   let scoreText = document.createElement("h2");
   scoreText.innerText = `
@@ -289,12 +287,21 @@ let scoreboardFunction = () => {
     `;
     quizBox.append(answerDiv);
     //Rätt svar- görn färg, fel svar- röd färg
-    if (answer.answer === questions[index].correctAnswer) {
+    if (answer.didAnswerCorrect === true) {
       answerDiv.style.color = "green";
     } else {
       answerDiv.style.color = "red";
     }
     index++;
+  });
+};
+
+//Funktion för att lägga till fråga + svar i scoreboard array
+let scoreboardPushFunction = (trueOrFalse) => {
+  scoreboard.answeredQuestions.push({
+    questionTitle: questions[index].question,
+    answer: answerArray.join(", "),
+    didAnswerCorrect: trueOrFalse,
   });
 };
 
@@ -318,12 +325,11 @@ nextBtn.addEventListener("click", () => {
   const isAnswerCorrect = validateAnswer();
   if (isAnswerCorrect === true) {
     scoreboard.totalScore++;
+    scoreboardPushFunction(true);
+  } else {
+    scoreboardPushFunction(false);
   }
-  //Lägger till fråga + svar i scoreboard array
-  scoreboard.answeredQuestions.push({
-    questionTitle: questions[index].question,
-    answer: answerArray.join(", "),
-  });
+
   //Nästa fråga
   nextQuestion();
 });
