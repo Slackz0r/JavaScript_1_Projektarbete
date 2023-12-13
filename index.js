@@ -305,7 +305,7 @@ let showScoreboardFunction = () => {
     answerDiv.innerHTML = `
     <div class="answer-box">
       <p>${answer.questionTitle}</p>
-      <p>${answer.answer}</p>
+      <p>Ditt svar: ${answer.answer}</p>
     </div>
     `;
     quizBox.append(answerDiv);
