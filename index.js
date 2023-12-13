@@ -4,6 +4,9 @@ let questions = [
     question: "I frankrike är det olagligt att döpa en gris till 'Napoleon'",
     correctAnswer: true,
     type: "bool",
+
+    alt1: true,
+    alt2: false,
   },
   {
     question: "Vilken av följande är INTE en karaktär i 'Sagan om Ringen'",
@@ -40,6 +43,9 @@ let questions = [
     question: "Banan är en baljväxt",
     correctAnswer: false,
     type: "bool",
+
+    alt1: true,
+    alt2: false,
   },
   {
     question: "Vilka av följande är INTE svenska kungar?",
@@ -206,7 +212,15 @@ let checkboxAnswerFunction = () => {
 //Funktion för att få ut värdet från radio buttons
 let radioAnswerFunction = () => {
   let radio = document.querySelector("[type='radio']:checked");
-  answerArray.push(radio.value);
+  //Om type = radio
+  if (questions[index].type === "radio") {
+    answerArray.push(radio.value);
+    //Om type = bool, kovertera från string till bool
+  } else if (radio.value === "true") {
+    answerArray.push(true);
+  } else {
+    answerArray.push(false);
+  }
 };
 
 //Funktion för radio
@@ -232,10 +246,18 @@ let radioFunction = () => {
 let boolFunction = () => {
   let boolBtns = document.createElement("div");
 
-  boolBtns.innerHTML = `
-      <button id="true">True</button>
-      <button id="false">False</button>
-      `;
+  boolBtns.innerHTML = `    
+  <label for="radio-1">${questions[index].alt1}</label>
+  <input type="radio" id="radio-1" name="radio" value="${questions[index].alt1}">
+  
+  <label for="radio-2">${questions[index].alt2}</label>
+  <input type="radio" id="radio-2" name="radio" value="${questions[index].alt2}">
+  `;
+
+  //`
+  //     <button id="true">True</button>
+  //     <button id="false">False</button>
+  //     `;
   quizBox.append(boolBtns);
 };
 
@@ -276,8 +298,6 @@ let showScoreboardFunction = () => {
     scoreText.style.color = "green";
   }
 
-  //Sätter index till 0 för att kunna loopa igenom igen
-  index = 0;
   //Loopar igenom scoreboard answers och skriver ut
   scoreboard.answeredQuestions.forEach((answer) => {
     let answerDiv = document.createElement("div");
@@ -292,7 +312,6 @@ let showScoreboardFunction = () => {
     } else {
       answerDiv.style.color = "red";
     }
-    index++;
   });
 };
 
@@ -318,7 +337,7 @@ nextBtn.addEventListener("click", () => {
   //Kollar typ av fråga
   if (questions[index].type === "checkbox") {
     checkboxAnswerFunction();
-  } else if (questions[index].type === "radio") {
+  } else {
     radioAnswerFunction();
   }
   //Lägger till poäng om svaret är rätt
@@ -329,7 +348,6 @@ nextBtn.addEventListener("click", () => {
   } else {
     scoreboardPushFunction(false);
   }
-
   //Nästa fråga
   nextQuestion();
 });
