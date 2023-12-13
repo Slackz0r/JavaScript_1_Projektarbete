@@ -18,21 +18,59 @@ body {
       text-align: center;
       font-size: 3rem;
     }
+    label {
+      font-size: 1.3rem;
+    }
+    button {
+      font-family: "Young Serif", serif;
+      align-self: center;
+      width: 160px;
+      height: 60px;
+      font-size: 1.2rem;
+      border-radius: 16px;
+      border: none;
+      background: palevioletred;
+      &:hover {
+        background: rgb(48, 48, 48);
+        color: palevioletred;
+        cursor: pointer;
+      }
+    }
+    #start-button {
+      width: 250px;
+      height: 100px;
+      font-size: 2rem;
+    }
+    #dark-mode {
+      height: 50px;
+      background: darkblue;
+      color: whitesmoke;
+    }
     #quiz-box {
       width: 70%;
-      height: 70%;
+      height: 65%;
+      padding: 24px;
       background: whitesmoke;
       border-radius: 16px;
       display: flex;
       flex-direction: column;
-      #start-button {
-        align-self: center;
-        justify-self: center;
+      justify-content: space-evenly;
+      overflow: auto;
+      text-align: center;
+      h2 {
+        font-size: 2rem;
+      }
+      p {
+        font-size: 1.2rem;
+      }
+      .answer-box {
+        border-top: 2px solid black;
       }
     }
+
+    //För result page
+    #quiz-box.result-page {
+      justify-content: flex-start;
+    }
   }
-}
-#viewer.darkMode {
-  background: black;
-  color: white;
 }

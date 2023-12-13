@@ -21,22 +21,89 @@ body #viewer h1 {
   text-align: center;
   font-size: 3rem;
 }
+html #viewer label,
+body #viewer label {
+  font-size: 1.3rem;
+}
+html #viewer button,
+body #viewer button {
+  font-family: "Young Serif", serif;
+  align-self: center;
+  width: 160px;
+  height: 60px;
+  font-size: 1.2rem;
+  border-radius: 16px;
+  border: none;
+  background: palevioletred;
+}
+html #viewer button:hover,
+body #viewer button:hover {
+  background: rgb(48, 48, 48);
+  color: palevioletred;
+  cursor: pointer;
+}
+html #viewer #start-button,
+body #viewer #start-button {
+  width: 250px;
+  height: 100px;
+  font-size: 2rem;
+}
+html #viewer #dark-mode,
+body #viewer #dark-mode {
+  height: 50px;
+  background: darkblue;
+  color: whitesmoke;
+}
 html #viewer #quiz-box,
 body #viewer #quiz-box {
   width: 70%;
-  height: 70%;
+  height: 65%;
+  padding: 24px;
   background: whitesmoke;
   border-radius: 16px;
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
+  overflow: auto;
+  text-align: center;
 }
-html #viewer #quiz-box #start-button,
-body #viewer #quiz-box #start-button {
-  align-self: center;
-  justify-self: center;
+html #viewer #quiz-box h2,
+body #viewer #quiz-box h2 {
+  font-size: 2rem;
+}
+html #viewer #quiz-box p,
+body #viewer #quiz-box p {
+  font-size: 1.2rem;
+}
+html #viewer #quiz-box .answer-box,
+body #viewer #quiz-box .answer-box {
+  border-top: 2px solid black;
+}
+html #viewer #quiz-box.result-page,
+body #viewer #quiz-box.result-page {
+  justify-content: flex-start;
 }
 
 #viewer.darkMode {
-  background: black;
-  color: white;
+  background: rgb(41, 13, 102);
+  color: rgb(208, 204, 204);
+}
+#viewer.darkMode button {
+  background: rgb(41, 12, 110);
+  color: rgb(208, 204, 204);
+}
+#viewer.darkMode button:hover {
+  background: rgb(208, 204, 204);
+  color: rgb(41, 12, 110);
+}
+#viewer.darkMode #quiz-box {
+  color: rgb(208, 204, 204);
+  background: rgb(74, 44, 145);
+}
+#viewer.darkMode #quiz-box.result-page {
+  background: rgb(129, 121, 150);
+}
+#viewer.darkMode #dark-mode {
+  background: whitesmoke;
+  color: darkblue;
 }/*# sourceMappingURL=style.css.map */

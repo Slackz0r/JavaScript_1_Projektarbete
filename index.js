@@ -29,7 +29,8 @@ let questions = [
     alt4: "Bolvar",
   },
   {
-    question: "Vilka av följande ingredienser innehåller en 'Pasta Carbonara'?",
+    question:
+      "Vilka två av följande ingredienser innehåller en 'Pasta Carbonara'?",
     correctAnswer: "Bacon",
     correctAnswer2: "Äggula",
     type: "checkbox",
@@ -48,7 +49,7 @@ let questions = [
     alt2: false,
   },
   {
-    question: "Vilka av följande är INTE svenska kungar?",
+    question: "Vilka två av följande är INTE svenska kungar?",
     correctAnswer: "Hans IV",
     correctAnswer2: "Erland II",
     type: "checkbox",
@@ -103,13 +104,12 @@ let questions = [
 ];
 
 //Element i HTML
-let quizBox = document.querySelector("#quiz-box");
 let viewer = document.querySelector("#viewer");
+let quizBox = document.querySelector("#quiz-box");
 let startBtn = document.querySelector("#start-button");
 let darkMode = document.querySelector("#dark-mode");
 
-//Knappar
-
+//Knappar -
 //Knapp för nästa fråga samt kolla svar
 let nextBtn = document.createElement("button");
 nextBtn.innerText = "Next question";
@@ -125,8 +125,7 @@ let scoreboard = {
   answeredQuestions: [],
 };
 
-//Funktioner
-
+//Funktioner -
 //Funktion för nästa fråga
 let nextQuestion = (isStart = false) => {
   //index får +1 om det inte är "start button"
@@ -143,7 +142,7 @@ let nextQuestion = (isStart = false) => {
   if (index === questions.length - 1) {
     nextBtn.innerText = "Show results";
   }
-  //Om index är över objektet.length - skriv ut scoreboard
+  //Om index är över eller lika med objektet.length - skriv ut scoreboard
   if (index >= questions.length) {
     showScoreboardFunction();
   } else {
@@ -152,7 +151,7 @@ let nextQuestion = (isStart = false) => {
     div.innerHTML = `
     <h2>Question ${index + 1}</h2>
     <p>${questions[index].question}</p>
-        `;
+    `;
     quizBox.append(div);
 
     //if-sats för typ av fråga
@@ -163,63 +162,8 @@ let nextQuestion = (isStart = false) => {
     } else if (questions[index].type === "checkbox") {
       checkboxFunction();
     }
-    //Skapar "next question" om inte bool
-    if (questions[index].type !== "bool") {
-    }
     //Knapp för nästa fråga
     quizBox.append(nextBtn);
-  }
-};
-
-//Funktion för att se om svaret stämmer
-let validateAnswer = () => {
-  console.log(answerArray);
-  //Om type = checkbox
-  if (questions[index].type === "checkbox") {
-    //Kollar answer 1
-    const isFirstAnswerCorrect = answerArray.includes(
-      questions[index].correctAnswer
-    );
-    //Kollar answer 2
-    const isSecondAnswerCorrect = answerArray.includes(
-      questions[index].correctAnswer2
-    );
-    //Matchar om båda stämmer
-    if (isFirstAnswerCorrect && isSecondAnswerCorrect) {
-      return true;
-    } else {
-      return false;
-    }
-    //Om type = radio/bool
-  } else {
-    if (answerArray.includes(questions[index].correctAnswer)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-};
-
-//Funktion för att få ut värdet från checkboxes
-let checkboxAnswerFunction = () => {
-  let checkbox = document.querySelectorAll("[type='checkbox']:checked");
-  //Loopar alla checkade checkboxar
-  checkbox.forEach((box) => {
-    answerArray.push(box.value);
-  });
-};
-
-//Funktion för att få ut värdet från radio buttons
-let radioAnswerFunction = () => {
-  let radio = document.querySelector("[type='radio']:checked");
-  //Om type = radio
-  if (questions[index].type === "radio") {
-    answerArray.push(radio.value);
-    //Om type = bool, kovertera från string till bool
-  } else if (radio.value === "true") {
-    answerArray.push(true);
-  } else {
-    answerArray.push(false);
   }
 };
 
@@ -253,11 +197,6 @@ let boolFunction = () => {
   <label for="radio-2">${questions[index].alt2}</label>
   <input type="radio" id="radio-2" name="radio" value="${questions[index].alt2}">
   `;
-
-  //`
-  //     <button id="true">True</button>
-  //     <button id="false">False</button>
-  //     `;
   quizBox.append(boolBtns);
 };
 
@@ -280,12 +219,74 @@ let checkboxFunction = () => {
   quizBox.append(checkboxes);
 };
 
+//Funktion för att få ut värdet från checkboxes
+let checkboxAnswerFunction = () => {
+  let checkbox = document.querySelectorAll("[type='checkbox']:checked");
+  //Loopar alla checkade checkboxar
+  checkbox.forEach((box) => {
+    answerArray.push(box.value);
+  });
+};
+
+//Funktion för att få ut värdet från radio buttons
+let radioAnswerFunction = () => {
+  let radio = document.querySelector("[type='radio']:checked");
+  //Om type = radio
+  if (questions[index].type === "radio") {
+    answerArray.push(radio.value);
+    //Om type = bool, kovertera från string till bool
+  } else if (radio.value === "true") {
+    answerArray.push(true);
+  } else {
+    answerArray.push(false);
+  }
+};
+
+//Funktion för att se om svaret stämmer
+let validateAnswer = () => {
+  console.log(answerArray);
+  //Om type = checkbox
+  if (questions[index].type === "checkbox") {
+    //Kollar answer 1
+    const isFirstAnswerCorrect = answerArray.includes(
+      questions[index].correctAnswer
+    );
+    //Kollar answer 2
+    const isSecondAnswerCorrect = answerArray.includes(
+      questions[index].correctAnswer2
+    );
+    //Matchar om båda stämmer
+    if (isFirstAnswerCorrect && isSecondAnswerCorrect) {
+      return true;
+    } else {
+      return false;
+    }
+    //Om type = radio/bool
+  } else {
+    if (answerArray.includes(questions[index].correctAnswer)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
+//Funktion för att lägga till fråga + svar i scoreboard array
+let scoreboardPushFunction = (trueOrFalse) => {
+  scoreboard.answeredQuestions.push({
+    questionTitle: questions[index].question,
+    answer: answerArray.join(", "),
+    didAnswerCorrect: trueOrFalse,
+  });
+};
+
 //Funktion för att skriva ut resultat
 let showScoreboardFunction = () => {
+  //Lägger till class för att kunna styla annorlunda
+  quizBox.classList.toggle("result-page");
   //Skriver ut total poäng
   let scoreText = document.createElement("h2");
-  scoreText.innerText = `
-  Total score: ${scoreboard.totalScore}
+  scoreText.innerText = `Total score: ${scoreboard.totalScore}
   (${scoreboard.totalScore * 10}%)
   `;
   //Ändrar färg beroende på resultat
@@ -302,8 +303,10 @@ let showScoreboardFunction = () => {
   scoreboard.answeredQuestions.forEach((answer) => {
     let answerDiv = document.createElement("div");
     answerDiv.innerHTML = `
-    <p>${answer.questionTitle}</p>
-    <p>${answer.answer}</p>
+    <div class="answer-box">
+      <p>${answer.questionTitle}</p>
+      <p>${answer.answer}</p>
+    </div>
     `;
     quizBox.append(answerDiv);
     //Rätt svar- görn färg, fel svar- röd färg
@@ -315,14 +318,7 @@ let showScoreboardFunction = () => {
   });
 };
 
-//Funktion för att lägga till fråga + svar i scoreboard array
-let scoreboardPushFunction = (trueOrFalse) => {
-  scoreboard.answeredQuestions.push({
-    questionTitle: questions[index].question,
-    answer: answerArray.join(", "),
-    didAnswerCorrect: trueOrFalse,
-  });
-};
+//Knappar
 
 //Knapp för att starta quiz
 startBtn.addEventListener("click", () => {
@@ -355,9 +351,4 @@ nextBtn.addEventListener("click", () => {
 //Knapp för dark mode
 darkMode.addEventListener("click", () => {
   viewer.classList.toggle("darkMode");
-});
-
-trueBtn.addEventListener("click", () => {
-  answerArray.push(true);
-  quizBox.append(nextBtn);
 });

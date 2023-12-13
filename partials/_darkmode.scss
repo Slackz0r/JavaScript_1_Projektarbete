@@ -1,0 +1,24 @@
+//Dark mode
+#viewer.darkMode {
+  background: rgb(41, 13, 102);
+  color: rgb(208, 204, 204);
+  button {
+    background: rgb(41, 12, 110);
+    color: rgb(208, 204, 204);
+    &:hover {
+      background: rgb(208, 204, 204);
+      color: rgb(41, 12, 110);
+    }
+  }
+  #quiz-box {
+    color: rgb(208, 204, 204);
+    background: rgb(74, 44, 145);
+  }
+  #quiz-box.result-page {
+    background: rgb(129, 121, 150);
+  }
+  #dark-mode {
+    background: whitesmoke;
+    color: darkblue;
+  }
+}
